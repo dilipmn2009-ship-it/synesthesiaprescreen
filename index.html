@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Synesthesia Pre‑Screen</title>
+  <meta name="description" content="Educational synesthesia pre‑screen with three consistency mini‑tests. Not a diagnosis." />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <div class="brand"><span class="logo" aria-label="Logo">SP</span> Synesthesia Pre‑Screen</div>
+      <nav class="links" aria-label="Primary navigation">
+        <a href="#home">Home</a>
+        <a href="#test">Take Test</a>
+        <a href="#learn">Learn</a>
+        <a href="#disclaimer">Disclaimer</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home" class="container">
+    <section class="hero card" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <h1 id="hero-title">Explore possible synesthetic traits</h1>
+        <p>
+          This site provides three different tests to identify potential synesthesia. These tests assess whether you have the 3 main types of sysnesthesia. <br>
+Letter/Number to Color, Sound to Color/Shape, or Sequence to Spatial.
+        </p>
+        <div class="cta">
+          <a class="btn primary" href="#test" id="startBtn">Start the test</a>
+          <a class="btn" href="#learn">What is synesthesia?</a>
+        </div>
+        
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orb o1"></div>
+        <div class="orb o2"></div>
+        <div class="orb o3"></div>
+      </div>
+    </section>
+
+    <section id="test" class="card" aria-labelledby="test-title">
+      <h2 id="test-title">Three-part test (repeated once)</h2>
+      <p class="section-lead">10 Grapheme→Color (MCQ), 10 Sound→Color/Shape (two MCQs), 10 Sequence→Spatial (place 10 dots). Then repeat the full set once more.</p>
+
+      <div id="testArea" class="test-area">
+        <div class="prompt" id="prompt">Click <strong>Begin</strong> to start.</div>
+        <div class="controls">
+          <button id="beginBtn" class="btn primary">Begin</button>
+          <button id="resetBtn" class="btn" disabled>Reset</button>
+        </div>
+
+        <div id="question" class="question hidden" role="region" aria-live="polite" aria-atomic="true" aria-label="Test question area">
+          <div class="qheader">
+            <div class="qkind" id="qkind" aria-live="polite">—</div>
+            <div class="progress" id="progress" aria-live="polite"></div>
+          </div>
+
+          <!-- Grapheme → Color (MCQ) -->
+          <div id="q_grapheme" class="qpanel hidden" role="group" aria-labelledby="grapheme-label">
+            <p class="instruction">Select the color that you feel best corresponds to the displayed letter.</p>
+            <div class="letter" id="letter" aria-live="polite" aria-atomic="true" aria-label="Current letter to choose color for"></div>
+            <div class="choices" id="graphemeChoices" role="list"></div>
+          </div>
+
+          <!-- Sound → Color/Shape (two MCQs) -->
+          <div id="q_sound" class="qpanel hidden" role="group" aria-labelledby="sound-label">
+            <p class="instruction">Listen to the tone by pressing ‘Play tone,’ then choose the color and shape you associate with that sound.</p>
+            <div class="tone-controls">
+              <button id="playToneBtn" class="btn" aria-describedby="toneLabel">Play tone</button>
+              <span id="toneLabel" class="muted" aria-live="polite" aria-atomic="true"></span>
+            </div>
+            <div class="choices two-col-wrap">
+              <div class="col" role="list" aria-label="Pick a color">
+                <div class="subhead">Pick a color</div>
+                <div class="choices" id="soundColorChoices"></div>
+              </div>
+              <div class="col" role="list" aria-label="Pick a shape">
+                <div class="subhead">Pick a shape</div>
+                <div class="choices" id="soundShapeChoices"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sequence → Spatial (place 10 dots before clicking Next) -->
+          <div id="q_sequence" class="qpanel hidden" role="group" aria-labelledby="sequence-label">
+            <p class="instruction">Place ten dots on the canvas in the order you perceive the sequence.</p>
+            <div class="seq-head" id="sequence-label">Place dots for items 1–10</div>
+            <div class="canvas-wrap">
+              <canvas id="seqCanvas" width="900" height="520" tabindex="0" aria-describedby="canvasHelp" aria-label="Canvas to place dots for sequence test"></canvas>
+              <div class="canvas-help muted" id="canvasHelp">Click or use keyboard arrows to place/move the current item’s dot. Auto-advance from 1 to 10. Place all 10 dots, then press Next.</div>
+            </div>
+            <div class="seq-status muted" aria-live="polite">
+              Current item: <span id="seqCurrent" class="seq-item"></span> • Placed <span id="seqCount">0</span>/10
+            </div>
+          </div>
+
+          <button id="nextBtn" class="btn primary">Save & Next</button>
+        </div>
+
+        <div id="results" class="results hidden" role="region" aria-live="polite" aria-atomic="true" aria-label="Test results">
+          <h3>Your results</h3>
+          <div class="score-grid">
+            <div class="score-card">
+              <div class="slabel">Overall consistency</div>
+              <div class="svalue" id="score_overall">—</div>
+            </div>
+            <div class="score-card">
+              <div class="slabel">Grapheme→Color</div>
+              <div class="svalue" id="score_grapheme">—</div>
+            </div>
+            <div class="score-card">
+              <div class="slabel">Sound→Color/Shape</div>
+              <div class="svalue" id="score_sound">—</div>
+            </div>
+            <div class="score-card">
+              <div class="slabel">Sequence→Spatial</div>
+              <div class="svalue" id="score_sequence">—</div>
+            </div>
+          </div>
+          <div class="score-desc" id="scoreDesc"></div>
+          <details class="details">
+            <summary>See detailed comparisons</summary>
+            <div id="detailsTable"></div>
+          </details>
+          <div class="post-cta">
+            <button id="retryBtn" class="btn">Try again</button>
+            <button id="saveBtn" class="btn">Save results (local)</button>
+            <button id="exportBtn" class="btn">Export JSON</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="learn" class="card" aria-labelledby="learn-title">
+      <h2 id="learn-title">Learn about synesthesia</h2>
+      <p>Synesthesia is a harmless neurological phenomenon (maybe linked to heredity), that results in senses merging with each other. For example, you can "see" soundes as different shapes or colors or you could associate a color with a specific letter. </p>
+    </section>
+
+    <section id="disclaimer" class="card" aria-labelledby="disclaimer-title">
+      <h2 id="disclaimer-title">Important disclaimer</h2>
+      <p>This is an educational pre‑screen. It is not a medical test or diagnosis and is not a substitute for professional advice. Results are stored only in your browser unless you export them.</p>
+    </section>
+
+    <section id="contact" class="card" aria-labelledby="contact-title">
+      <h2 id="contact-title">Contact & sharing</h2>
+      <p>Send feedback to <a href="mailto:example@example.com">dilipmn2009@gmail.com</a>.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <a href="#home" class="to-top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <script src="assets/script.js"></script>
+</body>
+</html>
+
+
+
